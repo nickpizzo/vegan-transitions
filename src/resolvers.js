@@ -59,6 +59,7 @@ exports.resolvers = {
         return {
           ...post._doc,
           _id: post.id,
+          postDate: new Date(post._doc.postDate).toISOString(),
           postCreator: getUser.bind(this, post._doc.postCreator)
         };
       });
@@ -222,6 +223,7 @@ exports.resolvers = {
         createdPost = {
           ...result._doc,
           _id: result._doc._id.toString(),
+          postDate: new Date(result._doc.postDate).toISOString(),
           postCreator: getUser.bind(this, result._doc.postCreator)
         };
 

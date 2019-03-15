@@ -9,6 +9,8 @@ export const getUser = userId => {
       return {
         ...user._doc,
         _id: user.id,
+        password: null,
+        joinDate: new Date(user._doc.joinDate).toISOString(),
         createdPosts: getPosts.bind(this, user._doc.createdPosts)
       };
     })
@@ -24,6 +26,7 @@ export const getPosts = postIds => {
         return {
           ...post._doc,
           _id: post.id,
+          postDate: new Date(post._doc.postDate).toISOString(),
           postCreator: getUser.bind(this, post.postCreator)
         };
       });
