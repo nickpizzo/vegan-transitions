@@ -4,6 +4,7 @@ var generator = require("generate-password");
 const axios = require("axios");
 const webConfig = require("./../webConfig");
 const Post = require("./models/Post");
+const { getPosts, getUser } = require("./helpers/getModels");
 
 const createToken = (user, secret, expiresIn) => {
   const { firstName, email } = user;
@@ -25,7 +26,6 @@ exports.resolvers = {
         return null;
       }
       const user = await User.findOne({ email: currentUser.email });
-      console.log(user.id);
       return user;
     },
 
@@ -53,16 +53,13 @@ exports.resolvers = {
     },
 
     getAllPosts: async (root, args, { User }) => {
-      const posts = await Post.find().populate("postCreator");
+      const posts = await Post.find();
 
       return posts.map(post => {
         return {
           ...post._doc,
           _id: post.id,
-          postCreator: {
-            ...post._doc.postCreator._doc,
-            _id: post._doc.postCreator.id
-          }
+          postCreator: getUser.bind(this, post._doc.postCreator)
         };
       });
     }
@@ -225,7 +222,7 @@ exports.resolvers = {
         createdPost = {
           ...result._doc,
           _id: result._doc._id.toString(),
-          postCreator: User.bind(this, result._doc.postCreator)
+          postCreator: getUser.bind(this, result._doc.postCreator)
         };
 
         const postOwner = await User.findById("5c8a8d3ab24b93369ab22ab9");

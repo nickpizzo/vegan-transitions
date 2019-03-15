@@ -41,12 +41,6 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false
   },
-  // createdComments: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "Post"
-  //   }
-  // ],
   createdPosts: [
     {
       type: Schema.Types.ObjectId,
