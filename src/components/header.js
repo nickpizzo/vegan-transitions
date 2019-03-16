@@ -12,7 +12,15 @@ class Header extends React.Component {
   render() {
     return (
       <header>
+        <div className="logo_wrapper">
+          <NavLink to="/" onClick={() => this.mobile_nav_button()}>
+            {/* <img src={`${webConfig.siteURL}/assets/graphics/logo.png`} /> */}
+            <span>vegan</span>transitions
+          </NavLink>
+        </div>
+
         <div className="header_links">
+          <NavLink to="/faq">FAQ</NavLink>
           <NavLink to="/faq">FAQ</NavLink>
         </div>
 
@@ -41,6 +49,7 @@ class Header extends React.Component {
                 <div className="caption">
                   {this.props.session.getCurrentUser != null && (
                     <span>
+                      Welcome,&nbsp;
                       {this.props.session.getCurrentUser.firstName}{" "}
                       {this.props.session.getCurrentUser.lastName}
                     </span>

@@ -12,9 +12,9 @@ class MainLayout extends React.Component {
   render() {
     return (
       <div className="container">
-        <aside className="sideBar">
+        {/* <aside className="sideBar">
           <SideBar />
-        </aside>
+        </aside> */}
         <section className="main">
           <Header />
           <div className="grid">{this.props.children}</div>
