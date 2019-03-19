@@ -27,6 +27,7 @@ exports.typeDefs = `
 
     type Comment {
         _id: ID
+        body: String!
         user: User!
         post: Post!
         createdAt: String!
@@ -71,7 +72,7 @@ exports.typeDefs = `
 
         createPost(country: String!, region: String!, category: String!, body: String!, postCreator: String!): Post
 
-        createComment(postId: ID!): Comment!
+        createComment(postId: ID!, body: String!): Comment!
 
         removeComment(commentId: ID!): Post!
 

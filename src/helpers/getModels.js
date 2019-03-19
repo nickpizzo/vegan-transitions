@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const { dateToString } = require("./date");
 
 // helper functions for dynamic data relationships, used in resolvers.js
 
@@ -44,5 +45,16 @@ export const transformPosts = post => {
     _id: post.id,
     postDate: new Date(post._doc.postDate).toISOString(),
     postCreator: getUser.bind(this, post.postCreator)
+  };
+};
+
+export const transformComments = comment => {
+  return {
+    ...comment._doc,
+    _id: comment.id,
+    user: getUser.bind(this, comment._doc.user),
+    post: singlePost.bind(this, comment._doc.post),
+    createdAt: dateToString(comment._doc.createdAt),
+    updatedAt: dateToString(comment._doc.updatedAt)
   };
 };

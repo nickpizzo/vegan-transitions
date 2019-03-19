@@ -6,11 +6,12 @@ const webConfig = require("./../webConfig");
 const Post = require("./models/Post");
 const Comment = require("./models/Comment");
 const {
-  getPosts,
   getUser,
   singlePost,
-  transformPosts
+  transformPosts,
+  transformComments
 } = require("./helpers/getModels");
+const { dateToString } = require("./helpers/date");
 
 const createToken = (user, secret, expiresIn) => {
   const { firstName, email } = user;
@@ -74,14 +75,7 @@ exports.resolvers = {
       try {
         const comments = await Comment.find();
         return comments.map(comment => {
-          return {
-            ...comment._doc,
-            _id: comment.id,
-            user: getUser.bind(this, comment._doc.user),
-            post: singlePost.bind(this, comment._doc.post),
-            createdAt: new Date(comment._doc.createdAt).toISOString(),
-            updatedAt: new Date(comment._doc.updatedAt).toISOString()
-          };
+          return transformComments(comment);
         });
       } catch (err) {
         throw err;
@@ -260,22 +254,16 @@ exports.resolvers = {
       }
     },
 
-    createComment: async (root, { postId }, { User }) => {
+    createComment: async (root, { postId, body }, { User }) => {
       const fetchedPost = await Post.findOne({ _id: postId });
       const comment = new Comment({
+        body,
         user: "5c9116f244030e47a617d3b1",
         post: fetchedPost
       });
 
       const result = await comment.save();
-      return {
-        ...result._doc,
-        _id: result.id,
-        user: getUser.bind(this, comment._doc.user),
-        post: singlePost.bind(this, comment._doc.post),
-        createdAt: new Date(comment._doc.createdAt).toISOString(),
-        updatedAt: new Date(comment._doc.updatedAt).toISOString()
-      };
+      return transformComments(result);
     },
 
     removeComment: async (root, { commentId }, { User }) => {
