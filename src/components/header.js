@@ -14,7 +14,7 @@ class Header extends React.Component {
       <header>
         <div className="logo_wrapper">
           <NavLink to="/" onClick={() => this.mobile_nav_button()}>
-            {/* <img src={`${webConfig.siteURL}/assets/graphics/logo.png`} /> */}
+            <img src={`${webConfig.siteURL}/assets/graphics/logo-img.png`} />
             <span>vegan</span>transitions
           </NavLink>
         </div>
@@ -30,7 +30,7 @@ class Header extends React.Component {
               to={`/profile/${this.props.session.getCurrentUser.userName}`}
             >
               <div className="wrap">
-                <div className="profile_img">
+                {/* <div className="profile_img">
                   {!this.props.session.getCurrentUser.profileImage && (
                     <img
                       src={`${
@@ -45,7 +45,7 @@ class Header extends React.Component {
                       }`}
                     />
                   )}
-                </div>
+                </div> */}
                 <div className="caption">
                   {this.props.session.getCurrentUser != null && (
                     <span>

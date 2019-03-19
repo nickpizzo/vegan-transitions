@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 import Header from "./../components/header";
 import Footer from "./../components/footer";
-import SideBar from "./../components/sidebar";
+// import SideBar from "./../components/sidebar";
+import Navigation from "./../components/navigation";
 
 class MainLayout extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class MainLayout extends React.Component {
         </aside> */}
         <section className="main">
           <Header />
+          <Navigation />
           <div className="grid">{this.props.children}</div>
           <Footer />
         </section>

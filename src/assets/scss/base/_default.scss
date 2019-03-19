@@ -16,9 +16,19 @@ html {
 
 html,
 body,
-#root,
-.container {
+#root {
   height: 100%;
+  .container {
+    max-width: 1425px;
+    margin: 0 auto;
+    background: $containerBg;
+    -webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.75);
+  }
+}
+
+body {
+  background: $bodyBg;
 }
 
 .hide {
@@ -143,9 +153,6 @@ h3 {
 // Layout
 
 .container {
-  position: relative;
-  // padding-left: 25.0rem;
-
   .sideBar {
     position: fixed;
     top: 0;

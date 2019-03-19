@@ -4,7 +4,8 @@ var generator = require("generate-password");
 const axios = require("axios");
 const webConfig = require("./../webConfig");
 const Post = require("./models/Post");
-const { getPosts, getUser } = require("./helpers/getModels");
+const Comment = require("./models/Comment");
+const { getPosts, getUser, singlePost } = require("./helpers/getModels");
 
 const createToken = (user, secret, expiresIn) => {
   const { firstName, email } = user;
@@ -53,16 +54,38 @@ exports.resolvers = {
     },
 
     getAllPosts: async (root, args, { User }) => {
-      const posts = await Post.find();
+      try {
+        const posts = await Post.find();
 
-      return posts.map(post => {
-        return {
-          ...post._doc,
-          _id: post.id,
-          postDate: new Date(post._doc.postDate).toISOString(),
-          postCreator: getUser.bind(this, post._doc.postCreator)
-        };
-      });
+        return posts.map(post => {
+          return {
+            ...post._doc,
+            _id: post.id,
+            postDate: new Date(post._doc.postDate).toISOString(),
+            postCreator: getUser.bind(this, post._doc.postCreator)
+          };
+        });
+      } catch (err) {
+        throw err;
+      }
+    },
+
+    getAllComments: async () => {
+      try {
+        const comments = await Comment.find();
+        return comments.map(comment => {
+          return {
+            ...comment._doc,
+            _id: comment.id,
+            user: getUser.bind(this, comment._doc.user),
+            post: singlePost.bind(this, comment._doc.post),
+            createdAt: new Date(comment._doc.createdAt).toISOString(),
+            updatedAt: new Date(comment._doc.updatedAt).toISOString()
+          };
+        });
+      } catch (err) {
+        throw err;
+      }
     }
   },
 
@@ -227,7 +250,7 @@ exports.resolvers = {
           postCreator: getUser.bind(this, result._doc.postCreator)
         };
 
-        const postOwner = await User.findById("5c8a8d3ab24b93369ab22ab9");
+        const postOwner = await User.findById("5c9116f244030e47a617d3b1");
 
         if (!postOwner) {
           throw new Error("There is no user");
@@ -239,6 +262,39 @@ exports.resolvers = {
         return createdPost;
       } catch (error) {
         console.log(error);
+      }
+    },
+
+    createComment: async (root, { postId }, { User }) => {
+      const fetchedPost = await Post.findOne({ _id: postId });
+      const comment = new Comment({
+        user: "5c9116f244030e47a617d3b1",
+        post: fetchedPost
+      });
+
+      const result = await comment.save();
+      return {
+        ...result._doc,
+        _id: result.id,
+        user: getUser.bind(this, comment._doc.user),
+        post: singlePost.bind(this, comment._doc.post),
+        createdAt: new Date(comment._doc.createdAt).toISOString(),
+        updatedAt: new Date(comment._doc.updatedAt).toISOString()
+      };
+    },
+
+    removeComment: async (root, { commentId }, { User }) => {
+      try {
+        const comment = await Comment.findById(commentId).populate("post");
+        const post = {
+          ...comment.post._doc,
+          _id: comment.post.id,
+          postCreator: getUser.bind(this, comment.post._doc.postCreator)
+        };
+        await Comment.deleteOne({ _id: commentId });
+        return post;
+      } catch (err) {
+        throw err;
       }
     }
   }

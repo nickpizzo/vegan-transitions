@@ -25,6 +25,14 @@ exports.typeDefs = `
         postCreator: User!
     }
 
+    type Comment {
+        _id: ID
+        user: User!
+        post: Post!
+        createdAt: String!
+        updatedAt: String!
+    }
+
     type Token {
         token: String!
     }
@@ -40,6 +48,8 @@ exports.typeDefs = `
         profilePage(userName: String!): User
 
         getAllPosts: [Post]
+
+        getAllComments: [Comment!]!
 
     }
 
@@ -60,6 +70,10 @@ exports.typeDefs = `
         passwordReset(email: String!): User
 
         createPost(country: String!, region: String!, category: String!, body: String!, postCreator: String!): Post
+
+        createComment(postId: ID!): Comment!
+
+        removeComment(commentId: ID!): Post!
 
     }
 

@@ -3,26 +3,28 @@ $txtCol: #4a4a4a;
 $black: #010000;
 $dark_blue: #003c76;
 $white: #ffffff;
-$orange: #f5a637;
+$orange: #ff9933;
 $red: #bc3030;
 $lightGrey: #ccc;
 $lightBlue: #69b3d0;
+$bodyBg: #43431d;
+$containerBg: #e4e4e4;
 
-// admin colors 
-$darkSlateGray: #272F37;
-$sandyBrown: #EDB33D;
-$whiteSmoke: #F9F9F9;
-$mediumSeaGreen: #43BE7D;
-$Violet: #EFA5C3;
+// admin colors
+$darkSlateGray: #272f37;
+$sandyBrown: #edb33d;
+$whiteSmoke: #f9f9f9;
+$mediumSeaGreen: #43be7d;
+$Violet: #efa5c3;
 
 @mixin translateY($e) {
-    -webkit-transform: translateY($e);
-    -moz-transform: translateY($e);
-    transform: translateY($e);
+  -webkit-transform: translateY($e);
+  -moz-transform: translateY($e);
+  transform: translateY($e);
 }
 
 @mixin transition($e) {
-    -webkit-transition:$e;
-    -moz-transition:$e;
-    transition:$e;
+  -webkit-transition: $e;
+  -moz-transition: $e;
+  transition: $e;
 }
