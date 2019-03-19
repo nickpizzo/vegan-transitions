@@ -5,7 +5,12 @@ const axios = require("axios");
 const webConfig = require("./../webConfig");
 const Post = require("./models/Post");
 const Comment = require("./models/Comment");
-const { getPosts, getUser, singlePost } = require("./helpers/getModels");
+const {
+  getPosts,
+  getUser,
+  singlePost,
+  transformPosts
+} = require("./helpers/getModels");
 
 const createToken = (user, secret, expiresIn) => {
   const { firstName, email } = user;
@@ -58,12 +63,7 @@ exports.resolvers = {
         const posts = await Post.find();
 
         return posts.map(post => {
-          return {
-            ...post._doc,
-            _id: post.id,
-            postDate: new Date(post._doc.postDate).toISOString(),
-            postCreator: getUser.bind(this, post._doc.postCreator)
-          };
+          return transformPosts(post);
         });
       } catch (err) {
         throw err;
@@ -243,12 +243,7 @@ exports.resolvers = {
 
       try {
         const result = await newPost.save();
-        createdPost = {
-          ...result._doc,
-          _id: result._doc._id.toString(),
-          postDate: new Date(result._doc.postDate).toISOString(),
-          postCreator: getUser.bind(this, result._doc.postCreator)
-        };
+        createdPost = transformPosts(result);
 
         const postOwner = await User.findById("5c9116f244030e47a617d3b1");
 
@@ -286,11 +281,7 @@ exports.resolvers = {
     removeComment: async (root, { commentId }, { User }) => {
       try {
         const comment = await Comment.findById(commentId).populate("post");
-        const post = {
-          ...comment.post._doc,
-          _id: comment.post.id,
-          postCreator: getUser.bind(this, comment.post._doc.postCreator)
-        };
+        const post = transformPosts(comment.post);
         await Comment.deleteOne({ _id: commentId });
         return post;
       } catch (err) {

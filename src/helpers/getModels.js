@@ -22,12 +22,7 @@ export const getPosts = async postIds => {
   try {
     const allPosts = await Post.find({ _id: { $in: postIds } });
     return allPosts.map(post => {
-      return {
-        ...post._doc,
-        _id: post.id,
-        postDate: new Date(post._doc.postDate).toISOString(),
-        postCreator: getUser.bind(this, post.postCreator)
-      };
+      return transformPosts(post);
     });
   } catch (err) {
     throw err;
@@ -37,12 +32,17 @@ export const getPosts = async postIds => {
 export const singlePost = async postId => {
   try {
     const post = await Post.findById(postId);
-    return {
-      ...post._doc,
-      _id: post.id,
-      postCreator: getUser.bind(this, post.postCreator)
-    };
+    return transformPosts(post);
   } catch (err) {
     throw err;
   }
+};
+
+export const transformPosts = post => {
+  return {
+    ...post._doc,
+    _id: post.id,
+    postDate: new Date(post._doc.postDate).toISOString(),
+    postCreator: getUser.bind(this, post.postCreator)
+  };
 };
