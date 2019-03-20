@@ -70,7 +70,7 @@ exports.typeDefs = `
 
         passwordReset(email: String!): User
 
-        createPost(country: String!, region: String!, category: String!, body: String!, postCreator: String!): Post
+        createPost(country: String!, region: String!, category: String!, body: String!): Post
 
         createComment(postId: ID!, body: String!): Comment!
 

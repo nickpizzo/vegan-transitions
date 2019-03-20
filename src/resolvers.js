@@ -4,6 +4,7 @@ var generator = require("generate-password");
 const axios = require("axios");
 const webConfig = require("./../webConfig");
 const Post = require("./models/Post");
+const User = require("./models/User");
 const Comment = require("./models/Comment");
 const {
   getUser,
@@ -14,10 +15,11 @@ const {
 const { dateToString } = require("./helpers/date");
 
 const createToken = (user, secret, expiresIn) => {
-  const { firstName, email } = user;
+  const { _id, firstName, email } = user;
 
   return jwt.sign(
     {
+      _id,
       firstName,
       email
     },
@@ -116,7 +118,7 @@ exports.resolvers = {
       const isValidPassword = await bcrypt.compare(password, user.password);
 
       if (!isValidPassword) {
-        throw new Error("inValid password");
+        throw new Error("Password is invalid");
       }
 
       return { token: createToken(user, process.env.JWT_SECRET, "1hr") };
@@ -222,15 +224,19 @@ exports.resolvers = {
 
     createPost: async (
       root,
-      { country, region, category, body, postCreator },
-      { User }
+      { country, region, category, body },
+      { currentUser }
     ) => {
+      if (!currentUser) {
+        throw new Error("Unauthorized");
+      }
+
       const newPost = new Post({
         country,
         region,
         category,
         body,
-        postCreator
+        postCreator: currentUser._id
       });
 
       let createdPost;
@@ -239,7 +245,7 @@ exports.resolvers = {
         const result = await newPost.save();
         createdPost = transformPosts(result);
 
-        const postOwner = await User.findById("5c9116f244030e47a617d3b1");
+        const postOwner = await User.findById(currentUser._id);
 
         if (!postOwner) {
           throw new Error("There is no user");
@@ -254,11 +260,14 @@ exports.resolvers = {
       }
     },
 
-    createComment: async (root, { postId, body }, { User }) => {
+    createComment: async (root, { postId, body }, { currentUser, User }) => {
+      if (!currentUser) {
+        throw new Error("Unauthorized");
+      }
       const fetchedPost = await Post.findOne({ _id: postId });
       const comment = new Comment({
         body,
-        user: "5c9116f244030e47a617d3b1",
+        user: currentUser._id,
         post: fetchedPost
       });
 
@@ -266,7 +275,10 @@ exports.resolvers = {
       return transformComments(result);
     },
 
-    removeComment: async (root, { commentId }, { User }) => {
+    removeComment: async (root, { commentId }, { currentUser, User }) => {
+      if (!currentUser) {
+        throw new Error("Unautorized");
+      }
       try {
         const comment = await Comment.findById(commentId).populate("post");
         const post = transformPosts(comment.post);
