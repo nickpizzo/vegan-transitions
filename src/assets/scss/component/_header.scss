@@ -6,10 +6,9 @@ header {
   color: #fff;
   position: relative;
   width: 100%;
-  height: 8rem;
-  padding: 0 14px;
+  height: 9rem;
+  padding: 0 16px;
   margin: 0 auto 0;
-  border-bottom: 1px solid #e8e8e8;
   text-align: right;
 
   a,
@@ -19,12 +18,12 @@ header {
 
   .logo_wrapper {
     font-family: "Sriracha", cursive;
-    font-size: 28px;
+    font-size: 30px;
     a {
       display: flex;
       align-items: center;
       img {
-        max-width: 45px;
+        max-width: 50px;
         margin-right: 10px;
       }
       span {
@@ -33,7 +32,34 @@ header {
     }
   }
 
-  .header_links {
+  .header_links_wrapper {
+    ul {
+      display: flex;
+      align-items: center;
+      li {
+        .btn {
+          border: 1px solid $orange;
+          padding: 11px 25px;
+          &:hover {
+            border: 1px solid $orange;
+          }
+        }
+        .login_button {
+          background: transparent;
+          color: $orange;
+          margin-right: 12px;
+        }
+        .signup_button {
+          background: $orange;
+          color: $navBg;
+          &:hover {
+            border: 1px solid $orange;
+            background: darken($orange, 15%);
+            border-color: darken($orange, 15%);
+          }
+        }
+      }
+    }
   }
 
   .your_account {

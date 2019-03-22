@@ -19,18 +19,36 @@ class Header extends React.Component {
           </NavLink>
         </div>
 
-        <div className="header_links">
-          <NavLink to="/faq">FAQ</NavLink>
-          <NavLink to="/faq">FAQ</NavLink>
-        </div>
+        <div className="header_links_wrapper">
+          {this.props.session.getCurrentUser === null && (
+            <ul>
+              <li className="form_buttons">
+                <NavLink className="btn login_button" to="/signin">
+                  LogIn
+                </NavLink>
+              </li>
+              <li className="form_buttons">
+                <NavLink className="btn signup_button" to="/signup">
+                  Signup
+                </NavLink>
+              </li>
+            </ul>
+          )}
 
-        {this.props.session.getCurrentUser != null && (
-          <div className="your_account">
-            <NavLink
-              to={`/profile/${this.props.session.getCurrentUser.userName}`}
-            >
-              <div className="wrap">
-                {/* <div className="profile_img">
+          {this.props.session.getCurrentUser != null && (
+            <div className="your_account">
+              <div className="caption">
+                <span>
+                  Welcome,&nbsp;
+                  {this.props.session.getCurrentUser.firstName}{" "}
+                  {this.props.session.getCurrentUser.lastName}
+                </span>
+              </div>
+              <NavLink
+                to={`/profile/${this.props.session.getCurrentUser.userName}`}
+              >
+                <div className="wrap">
+                  {/* <div className="profile_img">
                   {!this.props.session.getCurrentUser.profileImage && (
                     <img
                       src={`${
@@ -46,19 +64,11 @@ class Header extends React.Component {
                     />
                   )}
                 </div> */}
-                <div className="caption">
-                  {this.props.session.getCurrentUser != null && (
-                    <span>
-                      Welcome,&nbsp;
-                      {this.props.session.getCurrentUser.firstName}{" "}
-                      {this.props.session.getCurrentUser.lastName}
-                    </span>
-                  )}
                 </div>
-              </div>
-            </NavLink>
-          </div>
-        )}
+              </NavLink>
+            </div>
+          )}
+        </div>
       </header>
     );
   }

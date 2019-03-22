@@ -6,13 +6,7 @@ const webConfig = require("./../webConfig");
 const Post = require("./models/Post");
 const User = require("./models/User");
 const Comment = require("./models/Comment");
-const {
-  getUser,
-  singlePost,
-  transformPosts,
-  transformComments
-} = require("./helpers/getModels");
-const { dateToString } = require("./helpers/date");
+const { transformPosts, transformComments } = require("./helpers/getModels");
 
 const createToken = (user, secret, expiresIn) => {
   const { _id, firstName, email } = user;

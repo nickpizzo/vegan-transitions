@@ -35,136 +35,120 @@ class Navigation extends React.Component {
   render() {
     return (
       <nav className="signbar_nav">
-        <div
-          className={classNames({
-            headline: true,
-            mobile_nav_button: true,
-            active: this.state.mobileNavState
-          })}
-          onClick={() => this.mobile_nav_button()}
-        >
-          Main navigation
-        </div>
+        <ul>
+          <li>
+            <NavLink to="/" onClick={() => this.mobile_nav_button()}>
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/transitions" onClick={() => this.mobile_nav_button()}>
+              Transitions
+            </NavLink>
+          </li>
+          <li />
+          <li>
+            <NavLink to="/articles" onClick={() => this.mobile_nav_button()}>
+              Articles
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/famous-vegans"
+              onClick={() => this.mobile_nav_button()}
+            >
+              Famous Vegans
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/videos" onClick={() => this.mobile_nav_button()}>
+              Videos
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/books" onClick={() => this.mobile_nav_button()}>
+              Books
+            </NavLink>
+          </li>
+        </ul>
+        {/* {this.props.session.getCurrentUser === null && (
+          
+        )} */}
 
-        <div
-          className={classNames({
-            mobile_nav_toggle: true,
-            active: this.state.mobileNavState
-          })}
-        >
-          {this.props.session.getCurrentUser === null && (
-            <ul>
-              <li>
-                <NavLink to="/users" onClick={() => this.mobile_nav_button()}>
-                  <i className="fas fa-users" />
-                  Users
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/signin" onClick={() => this.mobile_nav_button()}>
-                  <i className="fas fa-user" />
-                  LogIn
-                </NavLink>
-              </li>
-              <li />
-              <li>
-                <NavLink to="/signup" onClick={() => this.mobile_nav_button()}>
-                  <i className="fas fa-pen-fancy" />
-                  Join now
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/account-recovery"
-                  onClick={() => this.mobile_nav_button()}
-                >
-                  <i className="fas fa-key" />
-                  Account recovery
-                </NavLink>
-              </li>
-            </ul>
-          )}
-
-          {this.props.session.getCurrentUser != null && (
-            <ul>
-              <li>
-                <NavLink to="/users" onClick={() => this.mobile_nav_button()}>
-                  <i className="fas fa-users" />
-                  Users
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard"
-                  onClick={() => this.mobile_nav_button()}
-                >
-                  <i className="fas fa-tachometer-alt" />
-                  Dashboard
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
-                  to={`/profile/${this.props.session.getCurrentUser.userName}`}
-                  onClick={() => this.mobile_nav_button()}
-                >
-                  <i className="fas fa-user-circle" />
-                  View my Profile
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/edit-profile"
-                  onClick={() => this.mobile_nav_button()}
-                >
-                  <i className="fas fa-user-cog" />
-                  Edit Profile
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/account" onClick={() => this.mobile_nav_button()}>
-                  <i className="fas fa-user-circle" />
-                  Update Account
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/signout" onClick={() => this.mobile_nav_button()}>
-                  <i className="fas fa-sign-out-alt" />
-                  LogOut
-                </NavLink>
-              </li>
-            </ul>
-          )}
-
-          <div className="headline">Important</div>
-
+        {/* {this.props.session.getCurrentUser != null && (
           <ul>
             <li>
+              <NavLink to="/users" onClick={() => this.mobile_nav_button()}>
+                <i className="fas fa-users" />
+                Users
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard" onClick={() => this.mobile_nav_button()}>
+                <i className="fas fa-tachometer-alt" />
+                Dashboard
+              </NavLink>
+            </li>
+
+            <li>
               <NavLink
-                to="/cookie-policy"
+                to={`/profile/${this.props.session.getCurrentUser.userName}`}
                 onClick={() => this.mobile_nav_button()}
               >
-                <i className="fas fa-cookie-bite" />
-                Cookie Policy
+                <i className="fas fa-user-circle" />
+                View my Profile
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="/privacy-policy"
+                to="/edit-profile"
                 onClick={() => this.mobile_nav_button()}
               >
-                <i className="fas fa-user-secret" />
-                Privacy Policy
+                <i className="fas fa-user-cog" />
+                Edit Profile
               </NavLink>
             </li>
             <li>
-              <NavLink to="/terms" onClick={() => this.mobile_nav_button()}>
-                <i className="fas fa-handshake" />
-                T&amp;C's
+              <NavLink to="/account" onClick={() => this.mobile_nav_button()}>
+                <i className="fas fa-user-circle" />
+                Update Account
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/signout" onClick={() => this.mobile_nav_button()}>
+                <i className="fas fa-sign-out-alt" />
+                LogOut
               </NavLink>
             </li>
           </ul>
-        </div>
+        )}
+
+        <ul>
+          <li>
+            <NavLink
+              to="/cookie-policy"
+              onClick={() => this.mobile_nav_button()}
+            >
+              <i className="fas fa-cookie-bite" />
+              Cookie Policy
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/privacy-policy"
+              onClick={() => this.mobile_nav_button()}
+            >
+              <i className="fas fa-user-secret" />
+              Privacy Policy
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/terms" onClick={() => this.mobile_nav_button()}>
+              <i className="fas fa-handshake" />
+              T&amp;C's
+            </NavLink>
+          </li>
+        </ul> */}
       </nav>
     );
   }
