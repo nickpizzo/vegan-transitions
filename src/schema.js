@@ -18,7 +18,7 @@ exports.typeDefs = `
         _id: ID
         country: String! 
         region: String!
-        category: String!
+        category: [String!]
         body: String!
         postDate: String
         published: Boolean!

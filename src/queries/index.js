@@ -1,5 +1,25 @@
 import { gql } from "apollo-boost";
 
+//Custom Queries
+export const CREATE_POST = gql`
+  mutation(
+    $country: String!
+    $region: String!
+    $category: String!
+    $body: String!
+  ) {
+    createPost(
+      country: $country
+      region: $region
+      category: $category
+      body: $body
+    ) {
+      country
+    }
+  }
+`;
+
+// PreBuilt Queries
 export const SIGNUP_USER = gql`
   mutation(
     $firstName: String!

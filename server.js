@@ -80,7 +80,6 @@ app.use(async (req, res, next) => {
     try {
       const currentUser = await jwt.verify(token, process.env.JWT_SECRET);
       req.currentUser = currentUser;
-      console.log(req.currentUser);
     } catch (err) {
       //   console.error(err);
       res.clearCookie("token");
